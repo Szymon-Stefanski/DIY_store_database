@@ -303,4 +303,5 @@ COMMENT ON COLUMN GRADES.grade_id IS 'Unique identifier for each grade record.';
 COMMENT ON COLUMN GRADES.student_id IS 'Identifier for the student who received the grade.';
 COMMENT ON COLUMN GRADES.course_id IS 'Identifier for the course associated with the grade.';
 COMMENT ON COLUMN GRADES.exam_id IS 'Identifier for the exam related to the grade, if applicable.';
+COMMENT ON COLUMN GRADES.grade IS 'The grade a student receives';
 /
