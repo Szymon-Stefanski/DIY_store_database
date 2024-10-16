@@ -99,12 +99,12 @@ CREATE TABLE DEPARTMENTS_FACULTIES (
     FOREIGN KEY (faculty_id) REFERENCES FACULTIES(faculty_id)
 );
 
-CREATE TABLE FACULTIES_COURSES (
+CREATE TABLE FACULTIES_DEPARTMENTS (
     faculty_id NUMBER(1) NOT NULL,
-    course_id NUMBER(2) NOT NULL,
-    PRIMARY KEY (faculty_id, course_id),
+    department_id NUMBER(1) NOT NULL,
+    PRIMARY KEY (faculty_id, department_id),
     FOREIGN KEY (faculty_id) REFERENCES FACULTIES(faculty_id),
-    FOREIGN KEY (course_id) REFERENCES COURSES(course_id)
+    FOREIGN KEY (department_id) REFERENCES DEPARTMENTS(department_id)
 );
 
 CREATE TABLE SCHEDULES (

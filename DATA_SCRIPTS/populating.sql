@@ -6,20 +6,20 @@ INSERT INTO DEPARTMENTS (department_name) VALUES ('Data Science');
 INSERT INTO DEPARTMENTS (department_name) VALUES ('Visual Communication');
 INSERT INTO DEPARTMENTS (department_name) VALUES ('3D Animation');
 
-INSERT INTO DEPARTMENTS_FACULTIES (department_id, faculty_id) VALUES (1, 1);
-INSERT INTO DEPARTMENTS_FACULTIES (department_id, faculty_id) VALUES (2, 1);
-INSERT INTO DEPARTMENTS_FACULTIES (department_id, faculty_id) VALUES (3, 2);
-INSERT INTO DEPARTMENTS_FACULTIES (department_id, faculty_id) VALUES (4, 2);
+INSERT INTO FACULTIES_DEPARTMENTS (faculty_id, department_id) VALUES (1, 1);
+INSERT INTO FACULTIES_DEPARTMENTS (faculty_id, department_id) VALUES (2, 1);
+INSERT INTO FACULTIES_DEPARTMENTS (faculty_id, department_id) VALUES (3, 2);
+INSERT INTO FACULTIES_DEPARTMENTS (faculty_id, department_id) VALUES (4, 2);
 
 INSERT INTO COURSES (course_name) VALUES ('Introduction to Programming');
 INSERT INTO COURSES (course_name) VALUES ('Data Structures and Algorithms');
 INSERT INTO COURSES (course_name) VALUES ('Web Design');
 INSERT INTO COURSES (course_name) VALUES ('Digital Illustration');
 
-INSERT INTO FACULTIES_COURSES (faculty_id, course_id) VALUES (1, 1);
-INSERT INTO FACULTIES_COURSES (faculty_id, course_id) VALUES (1, 2);
-INSERT INTO FACULTIES_COURSES (faculty_id, course_id) VALUES (2, 3);
-INSERT INTO FACULTIES_COURSES (faculty_id, course_id) VALUES (2, 4);
+INSERT INTO DEPARTMENTS_COURSES (department_id, course_id) VALUES (1, 1);
+INSERT INTO DEPARTMENTS_COURSES (department_id, course_id) VALUES (1, 2);
+INSERT INTO DEPARTMENTS_COURSES (department_id, course_id) VALUES (2, 3);
+INSERT INTO DEPARTMENTS_COURSES (department_id, course_id) VALUES (2, 4);
 
 INSERT INTO GROUPS (group_name, term) VALUES ('CS_term_1', 1);
 INSERT INTO GROUPS (group_name, term) VALUES ('CS_term_2', 2);
