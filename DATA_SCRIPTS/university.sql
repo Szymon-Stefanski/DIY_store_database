@@ -86,17 +86,17 @@ CREATE TABLE DEPARTMENTS (
     department_name VARCHAR2(50) UNIQUE NOT NULL
 );
 
+CREATE TABLE DEPARTMENTS_COURSES (
+    department_id NUMBER(1) NOT NULL,
+    course_id NUMBER(2) NOT NULL,
+    PRIMARY KEY (department_id, course_id),
+    FOREIGN KEY (department_id) REFERENCES DEPARTMENTS(department_id),
+    FOREIGN KEY (course_id) REFERENCES COURSES(course_id)
+);
+
 CREATE TABLE FACULTIES (
     faculty_id NUMBER(1) GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     faculty_name VARCHAR2(50) UNIQUE NOT NULL
-);
-
-CREATE TABLE DEPARTMENTS_FACULTIES (
-    department_id NUMBER(1) NOT NULL,
-    faculty_id NUMBER(1) NOT NULL,
-    PRIMARY KEY (department_id, faculty_id),
-    FOREIGN KEY (department_id) REFERENCES DEPARTMENTS(department_id),
-    FOREIGN KEY (faculty_id) REFERENCES FACULTIES(faculty_id)
 );
 
 CREATE TABLE FACULTIES_DEPARTMENTS (
@@ -141,8 +141,6 @@ CREATE TABLE GRADES (
     exam_id NUMBER(6) NOT NULL,
     grade NUMBER(5,2) NOT NULL,
     CONSTRAINT CK_GRADES_VALUE CHECK (grade BETWEEN 2.0 AND 5.0),
-    CONSTRAINT CK_GRADES_EXAM_DATE 
-        CHECK (exam_id IN (SELECT exam_id FROM EXAMS WHERE exam_date < CURRENT_TIMESTAMP)),
     FOREIGN KEY (student_id) REFERENCES STUDENTS(student_id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES COURSES(course_id) ON DELETE CASCADE,
     FOREIGN KEY (exam_id) REFERENCES EXAMS(exam_id) ON DELETE CASCADE
@@ -183,12 +181,13 @@ CREATE INDEX idx_lecturers_groups_lecturer ON LECTURERS_GROUPS(lecturer_id);
 CREATE INDEX idx_lecturers_groups_group ON LECTURERS_GROUPS(group_id);
 
 
-CREATE INDEX idx_departments_faculties_department ON DEPARTMENTS_FACULTIES(department_id);
-CREATE INDEX idx_departments_faculties_faculty ON DEPARTMENTS_FACULTIES(faculty_id);
+CREATE INDEX idx_faculties_departments_department ON FACULTIES_DEPARTMENTS(faculty_id);
+CREATE INDEX idx_faculties_departments_faculty ON FACULTIES_DEPARTMENTS(department_id);
 
 
-CREATE INDEX idx_faculties_courses_faculty ON FACULTIES_COURSES(faculty_id);
-CREATE INDEX idx_faculties_courses_course ON FACULTIES_COURSES(course_id);
+CREATE INDEX idx_departments_courses_department ON DEPARTMENTS_COURSES(department_id);
+CREATE INDEX idx_departments_courses_course ON DEPARTMENTS_COURSES(course_id);
+
 
 CREATE INDEX idx_grades_student ON GRADES(student_id);
 CREATE INDEX idx_grades_course ON GRADES(course_id);
@@ -269,14 +268,14 @@ COMMENT ON COLUMN FACULTIES.faculty_id IS 'Unique identifier for each faculty.';
 COMMENT ON COLUMN FACULTIES.faculty_name IS 'Name of the faculty, must be unique.';
 
 
-COMMENT ON TABLE DEPARTMENTS_FACULTIES IS 'Associative table linking departments to faculties.';
-COMMENT ON COLUMN DEPARTMENTS_FACULTIES.department_id IS 'Identifier for the department in the relation.';
-COMMENT ON COLUMN DEPARTMENTS_FACULTIES.faculty_id IS 'Identifier for the faculty in the relation.';
+COMMENT ON TABLE FACULTIES_DEPARTMENTS IS 'Associative table linking faculties to departments.';
+COMMENT ON COLUMN FACULTIES_DEPARTMENTS.faculty_id IS 'Identifier for the faculty in the relation.';
+COMMENT ON COLUMN FACULTIES_DEPARTMENTS.department_id IS 'Identifier for the department in the relation.';
 
 
-COMMENT ON TABLE FACULTIES_COURSES IS 'Associative table linking faculties to courses.';
-COMMENT ON COLUMN FACULTIES_COURSES.faculty_id IS 'Identifier for the faculty in the relation.';
-COMMENT ON COLUMN FACULTIES_COURSES.course_id IS 'Identifier for the course in the relation.';
+COMMENT ON TABLE DEPARTMENTS_COURSES IS 'Associative table linking departments to courses.';
+COMMENT ON COLUMN DEPARTMENTS_COURSES.department_id IS 'Identifier for the department in the relation.';
+COMMENT ON COLUMN DEPARTMENTS_COURSES.course_id IS 'Identifier for the course in the relation.';
 
 
 COMMENT ON TABLE SCHEDULES IS 'Table storing class schedules.';
