@@ -8,8 +8,8 @@ analyze student performance, course pass rates, and exam attempts, along with en
 
 **The project includes:**
 
-+SQL scripts to create tables, relationships, views and for populating tables with example data.
-+Views for tracking student rankings, group performance, grades, failed exams etc.
++ SQL scripts to create tables, relationships, views and for populating tables with example data.<br>
++ Views for tracking student rankings, group performance, grades, failed exams etc.<br>
 
 The system is designed to support administrative functions and provide insightful reports for student performance and course management.
 
