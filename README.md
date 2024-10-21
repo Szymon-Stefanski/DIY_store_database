@@ -21,7 +21,8 @@ https://docs.oracle.com/en/database/oracle/sql-developer/19.1/rptig/installing-s
 https://docs.oracle.com/en/database/oracle/oracle-database/tutorial-create-conn/index.html?opt-release-19c
 
 **If everything is fine then you can download files from folder DATA_SCRIPTS in my respository and open it in SQL Developer:**
-![image](https://github.com/user-attachments/assets/1757bf64-ab06-4f7f-be23-5288b802ff1f)
+![install_1](https://github.com/user-attachments/assets/4594ab9e-5dbe-41c2-bb65-9daa1a9a4bc5)
+
 
 **Next just click on icon with the small green arrow or press F5 key to run script:**
 ![image](https://github.com/user-attachments/assets/d8303d9f-1f9c-4372-860e-caaa26fab9a5)
