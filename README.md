@@ -20,7 +20,7 @@ https://docs.oracle.com/en/database/oracle/sql-developer/19.1/rptig/installing-s
 + Create a new connection - instruction for that:<br>
 https://docs.oracle.com/en/database/oracle/oracle-database/tutorial-create-conn/index.html?opt-release-19c
 
-**If everything is fine then you can download files from folder DATA_SCRIPTS in my respository and open it in SQL Developer:**
+**If everything is fine then you can download files from folder DATA_SCRIPTS in my respository and open it in SQL Developer:**<br>
 ![install_1](https://github.com/user-attachments/assets/4594ab9e-5dbe-41c2-bb65-9daa1a9a4bc5)
 
 
