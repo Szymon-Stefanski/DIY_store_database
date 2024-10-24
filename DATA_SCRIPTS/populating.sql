@@ -111,14 +111,25 @@ INSERT INTO ATTENDANCES (student_id, schedule_id, status) VALUES (8, 2, '1');
 INSERT INTO ATTENDANCES (student_id, schedule_id, status) VALUES (9, 1, '1');
 INSERT INTO ATTENDANCES (student_id, schedule_id, status) VALUES (10, 1, '0');
 
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (1, 1, 1, 4.5);
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (2, 1, 1, 3.5);
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (3, 1, 1, 5.0);
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (4, 1, 1, 4.0);
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (5, 1, 1, 3.5);
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (6, 1, 1, 4.0);
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (7, 1, 1, 3.0);
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (8, 1, 1, 3.5);
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (9, 1, 1, 4.0);
-INSERT INTO GRADES (student_id, course_id, exam_id, grade) VALUES (10, 1, 1, 4.0);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 4.5);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 3.5);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 5.0);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 4.0);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 3.5);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 4.0);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 3.0);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 3.5);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 4.0);
+INSERT INTO GRADES (course_id, exam_id, grade) VALUES (1, 1, 4.0);
+
+INSERT INTO GRADES (student_id, grade_id) VALUES (1, 1);
+INSERT INTO GRADES (student_id, grade_id) VALUES (2, 2);
+INSERT INTO GRADES (student_id, grade_id) VALUES (3, 3);
+INSERT INTO GRADES (student_id, grade_id) VALUES (4, 4);
+INSERT INTO GRADES (student_id, grade_id) VALUES (5, 5);
+INSERT INTO GRADES (student_id, grade_id) VALUES (6, 6);
+INSERT INTO GRADES (student_id, grade_id) VALUES (7, 7);
+INSERT INTO GRADES (student_id, grade_id) VALUES (8, 8);
+INSERT INTO GRADES (student_id, grade_id) VALUES (9, 9);
+INSERT INTO GRADES (student_id, grade_id) VALUES (10, 10);
 /

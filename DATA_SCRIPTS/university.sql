@@ -33,16 +33,16 @@ CREATE TABLE LECTURERS (
 );
 
 CREATE TABLE STUDENTS_GROUPS (
-    group_id NUMBER(2) NOT NULL,
-    student_id NUMBER(6) NOT NULL,
+    group_id NUMBER(2),
+    student_id NUMBER(6),
     PRIMARY KEY (group_id, student_id),
     FOREIGN KEY (group_id) REFERENCES GROUPS(group_id),
     FOREIGN KEY (student_id) REFERENCES STUDENTS(student_id)
 );
 
 CREATE TABLE LECTURERS_GROUPS (
-    lecturer_id NUMBER(2) NOT NULL,
-    group_id NUMBER(2) NOT NULL,
+    lecturer_id NUMBER(2),
+    group_id NUMBER(2),
     PRIMARY KEY (lecturer_id, group_id),
     FOREIGN KEY (lecturer_id) REFERENCES LECTURERS(lecturer_id),
     FOREIGN KEY (group_id) REFERENCES GROUPS(group_id)
@@ -87,8 +87,8 @@ CREATE TABLE DEPARTMENTS (
 );
 
 CREATE TABLE DEPARTMENTS_COURSES (
-    department_id NUMBER(1) NOT NULL,
-    course_id NUMBER(2) NOT NULL,
+    department_id NUMBER(1),
+    course_id NUMBER(2),
     PRIMARY KEY (department_id, course_id),
     FOREIGN KEY (department_id) REFERENCES DEPARTMENTS(department_id),
     FOREIGN KEY (course_id) REFERENCES COURSES(course_id)
@@ -100,8 +100,8 @@ CREATE TABLE FACULTIES (
 );
 
 CREATE TABLE FACULTIES_DEPARTMENTS (
-    faculty_id NUMBER(1) NOT NULL,
-    department_id NUMBER(1) NOT NULL,
+    faculty_id NUMBER(1),
+    department_id NUMBER(1),
     PRIMARY KEY (faculty_id, department_id),
     FOREIGN KEY (faculty_id) REFERENCES FACULTIES(faculty_id),
     FOREIGN KEY (department_id) REFERENCES DEPARTMENTS(department_id)
@@ -136,14 +136,20 @@ CREATE TABLE ATTENDANCES (
 
 CREATE TABLE GRADES (
     grade_id NUMBER(6) GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    student_id NUMBER(6) NOT NULL,
     course_id NUMBER(2) NOT NULL,
     exam_id NUMBER(6) NOT NULL,
     grade NUMBER(5,2) NOT NULL,
     CONSTRAINT CK_GRADES_VALUE CHECK (grade BETWEEN 2.0 AND 5.0),
-    FOREIGN KEY (student_id) REFERENCES STUDENTS(student_id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES COURSES(course_id) ON DELETE CASCADE,
     FOREIGN KEY (exam_id) REFERENCES EXAMS(exam_id) ON DELETE CASCADE
+);
+
+CREATE TABLE STUDENTS_GRADES (
+    student_id NUMBER(6),
+    grade_id NUMBER(6),
+    PRIMARY KEY (lecturer_id, group_id),
+    FOREIGN KEY (student_id) REFERENCES STUDENTS(student_id) ON DELETE CASCADE,
+    FOREIGN KEY (grade_id) REFERENCES GRADES(grade_id) ON DELETE CASCADE,
 );
 /
 
@@ -189,8 +195,11 @@ CREATE INDEX idx_departments_courses_department ON DEPARTMENTS_COURSES(departmen
 CREATE INDEX idx_departments_courses_course ON DEPARTMENTS_COURSES(course_id);
 
 
-CREATE INDEX idx_grades_student ON GRADES(student_id);
 CREATE INDEX idx_grades_course ON GRADES(course_id);
+
+
+CREATE INDEX idx_students_grades_student ON STUDENTS_GRADES(student_id);
+CREATE INDEX idx_students_grades_grade ON STUDENTS_GRADES(grade_id);
 /
 
 
@@ -303,4 +312,16 @@ COMMENT ON COLUMN GRADES.student_id IS 'Identifier for the student who received 
 COMMENT ON COLUMN GRADES.course_id IS 'Identifier for the course associated with the grade.';
 COMMENT ON COLUMN GRADES.exam_id IS 'Identifier for the exam related to the grade, if applicable.';
 COMMENT ON COLUMN GRADES.grade IS 'The grade a student receives';
+
+
+COMMENT ON TABLE GRADES IS 'Table storing information about students'' grades for courses.';
+COMMENT ON COLUMN GRADES.grade_id IS 'Unique identifier for each grade record.';
+COMMENT ON COLUMN GRADES.course_id IS 'Identifier for the course associated with the grade.';
+COMMENT ON COLUMN GRADES.exam_id IS 'Identifier for the exam related to the grade, if applicable.';
+COMMENT ON COLUMN GRADES.grade IS 'The grade a student receives';
+
+
+COMMENT ON TABLE STUDENTS_GRADES IS 'Table storing associations between students and grades.';
+COMMENT ON COLUMN STUDENTS_GRADES.student_id IS 'Identifier for the student who received the grade.';
+COMMENT ON COLUMN STUDENTS_GRADES.grade_id IS 'Unique identifier for each grade record.';
 /
