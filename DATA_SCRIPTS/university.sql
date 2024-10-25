@@ -147,9 +147,9 @@ CREATE TABLE GRADES (
 CREATE TABLE STUDENTS_GRADES (
     student_id NUMBER(6),
     grade_id NUMBER(6),
-    PRIMARY KEY (lecturer_id, group_id),
+    PRIMARY KEY (student_id, grade_id),
     FOREIGN KEY (student_id) REFERENCES STUDENTS(student_id) ON DELETE CASCADE,
-    FOREIGN KEY (grade_id) REFERENCES GRADES(grade_id) ON DELETE CASCADE,
+    FOREIGN KEY (grade_id) REFERENCES GRADES(grade_id) ON DELETE CASCADE
 );
 /
 

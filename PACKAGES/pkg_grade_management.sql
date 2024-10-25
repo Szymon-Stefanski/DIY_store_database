@@ -2,21 +2,21 @@
 CREATE OR REPLACE PACKAGE pkg_grade_management
 IS
   PROCEDURE add_grade(
-    v_student_id  grades.student_id%TYPE,
+    v_student_id  students_grades.student_id%TYPE,
     v_course_id   grades.course_id%TYPE,
     v_exam_id     grades.exam_id%TYPE,
     v_grade       grades.grade%TYPE
   );
 
   PROCEDURE update_grade(
-    v_student_id  grades.student_id%TYPE,
+    v_student_id  students_grades.student_id%TYPE,
     v_course_id   grades.course_id%TYPE,
     v_exam_id     grades.exam_id%TYPE,
     v_grade       grades.grade%TYPE
   );
 
-  FUNCTION avg_grade(v_student_id grades.student_id%TYPE) RETURN VARCHAR2;
-  FUNCTION get_all_grades(v_student_id grades.student_id%TYPE) RETURN VARCHAR2;
+  FUNCTION avg_grade(v_student_id students_grades.student_id%TYPE) RETURN VARCHAR2;
+  FUNCTION get_all_grades(v_student_id students_grades.student_id%TYPE) RETURN VARCHAR2;
 END pkg_grade_management;
 / 
 
@@ -24,7 +24,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_grade_management
 IS
   -- PROCEDURE TO ADD A NEW GRADE RECORD
   PROCEDURE add_grade(
-    v_student_id  grades.student_id%TYPE,
+    v_student_id  students_grades.student_id%TYPE,
     v_course_id   grades.course_id%TYPE,
     v_exam_id     grades.exam_id%TYPE,
     v_grade       grades.grade%TYPE
@@ -32,10 +32,16 @@ IS
   IS
     ex_grade EXCEPTION;
     PRAGMA EXCEPTION_INIT(ex_grade, -20001);
+
+    v_grade_id grades.grade_id%TYPE;
   BEGIN
     IF v_grade BETWEEN 2.0 AND 5.0 THEN
-      INSERT INTO grades (student_id, course_id, exam_id, grade)
-      VALUES (v_student_id, v_course_id, v_exam_id, v_grade);
+      INSERT INTO grades (course_id, exam_id, grade)
+      VALUES (v_course_id, v_exam_id, v_grade)
+      RETURNING grade_id INTO v_grade_id;;
+
+      INSERT INTO students_grades (student_id, grade_id)
+      VALUES (v_student_id, v_grade)
       DBMS_OUTPUT.PUT_LINE('Grade added successfully.');
     ELSE
       RAISE ex_grade;
@@ -50,18 +56,22 @@ IS
 
   -- PROCEDURE TO UPDATE A STUDENT'S GRADE
   PROCEDURE update_grade(
-      v_student_id  grades.student_id%TYPE,
+      v_student_id  students_grades.student_id%TYPE,
       v_course_id   grades.course_id%TYPE,
       v_exam_id     grades.exam_id%TYPE,
       v_grade       grades.grade%TYPE
   )
   IS
   BEGIN
-      UPDATE grades 
-      SET grade = v_grade
-      WHERE student_id = v_student_id
-        AND course_id = v_course_id
-        AND exam_id = v_exam_id;
+    UPDATE grades g
+    SET g.grade = v_grade
+    WHERE g.grade_id = (
+        SELECT s.grade_id
+        FROM students_grades s
+        WHERE s.student_id = v_student_id
+          AND g.course_id = v_course_id
+          AND g.exam_id = v_exam_id
+    );
 
       IF SQL%ROWCOUNT = 0 THEN
           DBMS_OUTPUT.PUT_LINE('No matching record found for the provided student, course, and exam IDs.');
@@ -75,16 +85,17 @@ IS
   END update_grade;
 
   -- FUNCTION TO RETRIEVE AVERAGE GRADE BY STUDENT ID
-  FUNCTION avg_grade(v_student_id grades.student_id%TYPE)
+  FUNCTION avg_grade(v_student_id students_grades.student_id%TYPE)
   RETURN VARCHAR2 
   IS
     v_grade       NUMBER;
     v_output      VARCHAR2(100);
   BEGIN
-    SELECT NVL(AVG(grade), 0)
+    SELECT NVL(AVG(g.grade), 0)
     INTO v_grade
-    FROM grades
-    WHERE student_id = v_student_id;
+    FROM grades g
+    INNER JOIN students_grades s ON g.grade_id = s.grade_id
+    WHERE s.student_id = v_student_id;
 
     v_output := 'Average grade: ' || v_grade;
 
@@ -99,13 +110,14 @@ IS
   END avg_grade;
 
   -- FUNCTION TO RETRIEVE ALL GRADES INFORMATION BY STUDENT ID
-  FUNCTION get_all_grades(v_student_id grades.student_id%TYPE)
+  FUNCTION get_all_grades(v_student_id students_grades.student_id%TYPE)
   RETURN VARCHAR2
   IS
       CURSOR grade_cursor IS
-          SELECT grade_id, course_id, exam_id, grade
-          FROM grades
-          WHERE student_id = v_student_id;
+          SELECT g.grade_id, g.course_id, g.exam_id, g.grade
+          FROM grades g
+          INNER JOIN students_grades s ON g.grade_id = s.grade_id
+          WHERE s.student_id = v_student_id;
 
       v_output      VARCHAR2(1000) := 'Grades for Student ID: ' || v_student_id || ': ';
       v_first       BOOLEAN := TRUE;
