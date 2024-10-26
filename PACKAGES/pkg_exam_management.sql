@@ -96,6 +96,7 @@ IS
   END update_exam;
 
 
+
   --FUNCTION FOR DISPLAYING EXAM DETAILS
   FUNCTION display_exam(v_exam_id exams.exam_id%TYPE) 
   RETURN VARCHAR2
@@ -110,10 +111,12 @@ IS
       FROM exams
       WHERE exam_id = v_exam_id;
 
-      RETURN 'Course ID: ' || v_course_id || ', Group ID: ' || v_group_id 
-            || ', Exam date: ' || TO_CHAR(v_exam_date, 'YYYY-MM-DD') 
-            || ', Room ID: ' || v_room_id;
-    
+      RETURN  'Exam ID: ' || v_exam_id ||
+              ', Course ID: ' || v_course_id || 
+              ', Group ID: ' || v_group_id || 
+              ', Exam date: ' || TO_CHAR(v_exam_date, 'YYYY-MM-DD') || 
+              ', Room ID: ' || v_room_id;
+                
   EXCEPTION
       WHEN NO_DATA_FOUND THEN
         RETURN 'No exam found with this ID.';

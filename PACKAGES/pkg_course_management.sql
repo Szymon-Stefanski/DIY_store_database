@@ -7,7 +7,7 @@ IS
     v_course_id courses.course_id%TYPE, 
     v_course_name courses.course_name%TYPE
     );
-  
+    FUNCTION display_course(v_course_id courses.course_id%TYPE) RETURN VARCHAR2;
 END pkg_course_management;
 /
 
@@ -72,4 +72,27 @@ IS
     WHEN OTHERS THEN
       DBMS_OUTPUT.PUT_LINE('Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM);
   END update_course;
+
+
+
+    --FUNCTION FOR DISPLAYING COURSE DETAILS
+  FUNCTION display_course(v_course_id courses.course_id%TYPE) 
+  RETURN VARCHAR2
+  IS
+      v_course_name  courses.course_name%TYPE;
+  BEGIN
+      SELECT course_name
+      INTO v_course_name
+      FROM courses
+      WHERE course_id = v_course_id;
+
+      RETURN  'Course ID: ' || v_course_id || 
+              ', Course name: ' || v_course_name;
+    
+  EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+        RETURN 'No course found with this ID.';
+      WHEN OTHERS THEN
+        RETURN 'Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM;
+  END display_course;
 END pkg_course_management;
