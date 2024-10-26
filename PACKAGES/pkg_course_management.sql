@@ -18,7 +18,7 @@ IS
   IS
   BEGIN
     INSERT INTO courses(course_name) VALUES (v_course_name);
-    
+
     IF SQL%ROWCOUNT = 0 THEN
       DBMS_OUTPUT.PUT_LINE('Course can''t be added, please try again');
     ELSE
@@ -36,7 +36,7 @@ IS
   PROCEDURE delete_course (v_course_id courses.course_id%TYPE)
   IS
   BEGIN
-    DELETE FROM courses WHERE course_id = v_course_id;]
+    DELETE FROM courses WHERE course_id = v_course_id;
 
     IF SQL%ROWCOUNT = 0 THEN
       DBMS_OUTPUT.PUT_LINE('Course can''t be deleted, please try again');
