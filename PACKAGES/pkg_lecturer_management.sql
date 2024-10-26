@@ -28,7 +28,11 @@ IS
     VALUES 
     (v_first_name, v_last_name, v_email, v_phone_number);
 
-    DBMS_OUTPUT.PUT_LINE('Lecturer added successfully.');
+    IF SQL%ROWCOUNT = 0 THEN
+      DBMS_OUTPUT.PUT_LINE('Lecturer can''t be added, please try again.');
+    ELSE
+      DBMS_OUTPUT.PUT_LINE('Lecturer added successfully.');
+    END IF;
 
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN

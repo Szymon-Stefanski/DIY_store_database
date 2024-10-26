@@ -46,7 +46,12 @@ IS
     VALUES 
     (v_first_name, v_last_name, v_email, v_city, v_street, v_home_number, v_postal_code, v_phone_number, v_pesel);
 
-    DBMS_OUTPUT.PUT_LINE('Student added successfully.');
+    
+    IF SQL%ROWCOUNT = 0 THEN
+      DBMS_OUTPUT.PUT_LINE('Student can''t be added, please try again.');
+    ELSE
+      DBMS_OUTPUT.PUT_LINE('Student added successfully.');
+    END IF;
 
   EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
