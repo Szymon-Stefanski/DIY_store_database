@@ -10,6 +10,7 @@ analyze student performance, course pass rates, and exam attempts, along with en
 
 - SQL scripts to create tables, relationships, views and for populating tables with example data.<br>
 - Views for tracking student rankings, group performance, grades, failed exams etc.<br>
+- Packages in PL/SQL for streamlined management of key database operations, covering functionalities for handling student attendance, courses, exams, grades, lecturers, schedules, and student information.<br>
 
 The system is designed to support administrative functions and provide insightful reports for student performance and course management.
 
