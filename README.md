@@ -1,4 +1,16 @@
-**University Database Project**
+# University Database Project
+
+![SQL](https://img.shields.io/badge/SQL-%23468583.svg?style=flat&logo=sql&logoColor=white)
+![PL/SQL](https://img.shields.io/badge/PL%2FSQL-%239148C1.svg?style=flat&logo=oracle&logoColor=white)
+![Oracle Database 23ai](https://img.shields.io/badge/Oracle%20DB-23ai-red?style=flat&logo=oracle)
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+
+## Introduction
 
 ![University](https://github.com/Szymon-Stefanski/university_project/blob/main/README/University.png)
 
@@ -14,6 +26,8 @@ analyze student performance, course pass rates, and exam attempts, along with en
 
 The system is designed to support administrative functions and provide insightful reports for student performance and course management.
 
+## Installation
+
 **How to install all components:**
 
 - Use SQL Developer - instruction for installing:<br>
@@ -27,6 +41,8 @@ The system is designed to support administrative functions and provide insightfu
 
 **Next just click on icon with the small green arrow or press F5 key to run script:**
 ![image](https://github.com/user-attachments/assets/d8303d9f-1f9c-4372-860e-caaa26fab9a5)
+
+## Usage
 
 **Functionalities:**
 
