@@ -75,7 +75,6 @@ CREATE TABLE EXAMS (
     group_id NUMBER(2) NOT NULL,
     exam_date TIMESTAMP NOT NULL,
     room_id NUMBER(2) NOT NULL,
-    CONSTRAINT CK_EXAMS_DATE CHECK (exam_date >= TIMESTAMP '2024-10-12 00:00:00'),
     FOREIGN KEY (course_id) REFERENCES COURSES(course_id),
     FOREIGN KEY (group_id) REFERENCES GROUPS(group_id),
     FOREIGN KEY (room_id) REFERENCES ROOMS(room_id)
