@@ -4,7 +4,8 @@ FOR EACH ROW
 DECLARE
 BEGIN
   IF :NEW.exam_date <= SYSDATE THEN
-    RAISE_APPLICATION_ERROR(-20002, 'You can''t add exam date equal or lower over sysdate. Please try again');
+    RAISE_APPLICATION_ERROR(-20002, 'You can''t add or update an exam with 
+    an exam date that is today or in the past. Please choose a future date');
   END IF;
 END;
 /
