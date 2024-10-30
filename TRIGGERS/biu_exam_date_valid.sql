@@ -1,3 +1,4 @@
+-- Trigger to ensure exam dates are set in the future
 CREATE OR REPLACE TRIGGER biu_exam_date_valid
 BEFORE INSERT OR UPDATE ON exams
 FOR EACH ROW

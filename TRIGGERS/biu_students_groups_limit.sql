@@ -1,3 +1,4 @@
+-- Trigger to limit the number of students in a group to 20
 CREATE OR REPLACE TRIGGER biu_students_groups_limit
 BEFORE INSERT OR UPDATE ON students_groups
 FOR EACH ROW
@@ -9,7 +10,7 @@ BEGIN
     WHERE group_id = :NEW.group_id;
 
     IF v_student_count >= 20 THEN
-        RAISE_APPLICATION_ERROR(-20003, 'Can''t add more than 20 students to a single group.');
+        RAISE_APPLICATION_ERROR(-20004, 'Can''t add more than 20 students to a single group.');
     END IF;
 END;
 /
