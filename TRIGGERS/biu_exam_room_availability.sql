@@ -12,7 +12,7 @@ BEGIN
     AND exam_id != :NEW.exam_id;
 
     IF v_conflict_count > 0 THEN
-        RAISE_APPLICATION_ERROR(-2007, 'The room is already booked for another exam at this time.');
+        RAISE_APPLICATION_ERROR(-20007, 'The room is already booked for another exam at this time.');
     END IF;
 END;
 /
