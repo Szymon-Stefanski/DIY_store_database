@@ -2,6 +2,7 @@
 
 ![SQL](https://img.shields.io/badge/SQL-%23468583.svg?style=flat&logo=sql&logoColor=white)
 ![PL/SQL](https://img.shields.io/badge/PL%2FSQL-%239148C1.svg?style=flat&logo=oracle&logoColor=white)
+![utPL/SQL](https://img.shields.io/badge/utPL%2FSQL-%23F80000.svg?style=flat&logo=oracle&logoColor=white)
 ![Oracle Database 23ai](https://img.shields.io/badge/Oracle%20DB-23ai-red?style=flat&logo=oracle)
 
 ## Table of Contents
