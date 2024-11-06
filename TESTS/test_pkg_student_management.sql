@@ -157,7 +157,7 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
     v_actual_info   VARCHAR2(500);
   BEGIN
     INSERT INTO NEO.students (first_name, last_name, email, city, street, home_number, postal_code, phone_number, PESEL)
-    VALUES ('John', 'Doe', 'john.doe@example.com', 'SampleCity', 'SampleStreet', '12', '12345', '123456789', '90010112345')
+    VALUES ('John', 'Doe', 'john.doe@example.com', 'SampleCity', 'SampleStreet', '12', '12-345', '123456789', '90010112345')
     RETURNING student_id INTO v_student_id;
 
     v_expected_info := 'Student ID: ' || v_student_id || ', ' ||
