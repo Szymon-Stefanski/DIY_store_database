@@ -10,6 +10,9 @@ CREATE OR REPLACE PACKAGE test_pkg_student_management IS
 
   --%test test_update_student_success
   PROCEDURE test_update_student_success;
+
+  --%test test_get_student_info_success
+  PROCEDURE test_get_student_info_success;
 END test_pkg_student_management;
 /
 
@@ -146,6 +149,39 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
     DELETE FROM NEO.students WHERE phone_number = '123456789' AND pesel = '90010112345';
     ROLLBACK;
   END test_update_student_success;
+
+  ---- TEST TO GET AN INFO ABOUT STUDENT
+  PROCEDURE test_get_student_info_success IS
+    v_student_id    NEO.students.student_id%TYPE;
+    v_expected_info VARCHAR2(500);
+    v_actual_info   VARCHAR2(500);
+  BEGIN
+    INSERT INTO NEO.students (first_name, last_name, email, city, street, home_number, postal_code, phone_number, PESEL)
+    VALUES ('John', 'Doe', 'john.doe@example.com', 'SampleCity', 'SampleStreet', '12', '12345', '123456789', '90010112345')
+    RETURNING student_id INTO v_student_id;
+
+    v_expected_info := 'Student ID: ' || v_student_id || ', ' ||
+                       'First Name: John, ' ||
+                       'Last Name: Doe, ' ||
+                       'Email: john.doe@example.com, ' ||
+                       'City: SampleCity, ' ||
+                       'Street: SampleStreet, ' ||
+                       'Home Number: 12, ' ||
+                       'Postal Code: 12345, ' ||
+                       'Phone Number: 123456789, ' ||
+                       'PESEL: 90010112345';
+
+
+    v_actual_info := NEO.pkg_student_management.get_student_info(v_student_id);
+
+
+    ut.expect(v_actual_info).to_equal(v_expected_info);
+
+    DELETE FROM NEO.students WHERE student_id = v_student_id;
+  EXCEPTION
+    WHEN OTHERS THEN
+      DBMS_OUTPUT.put_line('Error occurred: ' || SQLERRM);
+  END test_get_student_info_success;
 
 END test_pkg_student_management;
 /
