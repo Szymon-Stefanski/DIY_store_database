@@ -25,6 +25,7 @@ analyze student performance, course pass rates, and exam attempts, along with en
 - Views for tracking student rankings, group performance, grades, failed exams etc.<br>
 - Packages in PL/SQL for streamlined management of key database operations, covering functionalities for handling student attendance, courses, exams, grades, lecturers, schedules, and student information.<br>
 - Triggers to enforce business rules and data integrity, such as limiting the number of students per group, ensuring exam dates are set in the future, and validating schedule dates and times.<br>
+- Tests to verify core features, ensuring each operation performs as intended and business rules are consistently enforced, supporting overall reliability and data integrity across the system.<br>
 
 The system is designed to support administrative functions and provide insightful reports for student performance and course management.
 
