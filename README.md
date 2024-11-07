@@ -33,11 +33,14 @@ The system is designed to support administrative functions and provide insightfu
 
 **How to install all components:**
 
-- Use SQL Developer - instruction for installing:<br>
+- Use SQL Developer - instruction for installation:<br>
   https://docs.oracle.com/en/database/oracle/sql-developer/19.1/rptig/installing-sql-developer.html#GUID-A3509B92-90A4-4268-8027-FE85DE5554A8
 
-- Create a new connection - instruction for that:<br>
+- Create a new connection in database - instruction for that:<br>
   https://docs.oracle.com/en/database/oracle/oracle-database/tutorial-create-conn/index.html?opt-release-19c
+
+- For tests use utPL/SQL framework - documentation and instruction for installation:<br>
+  https://github.com/utPLSQL/utPLSQL
 
 **If everything is fine then you can download files from folder DATA_SCRIPTS in my respository and open it in SQL Developer:**<br>
 ![install_1](https://github.com/user-attachments/assets/4594ab9e-5dbe-41c2-bb65-9daa1a9a4bc5)
