@@ -56,7 +56,9 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
     END;
 
     DELETE FROM NEO.students WHERE phone_number = '123456789' AND pesel = '90010112345';
+
     ROLLBACK;
+
   END test_add_student_success;
 
   -- TEST TO DELETE A STUDENT RECORD
@@ -91,6 +93,8 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
 
     SELECT COUNT(*) INTO v_student_count_after FROM NEO.students;
     ut.expect(v_student_count_after).to_equal(v_student_count_before);
+
+    ROLLBACK;
 
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
@@ -147,7 +151,9 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
     END;
 
     DELETE FROM NEO.students WHERE phone_number = '123456789' AND pesel = '90010112345';
+
     ROLLBACK;
+
   END test_update_student_success;
 
   ---- TEST TO GET AN INFO ABOUT STUDENT
@@ -171,13 +177,14 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
                        'Phone Number: 123456789, ' ||
                        'PESEL: 90010112345';
 
-
     v_actual_info := NEO.pkg_student_management.get_student_info(v_student_id);
-
 
     ut.expect(v_actual_info).to_equal(v_expected_info);
 
     DELETE FROM NEO.students WHERE student_id = v_student_id;
+
+    ROLLBACK;
+
   EXCEPTION
     WHEN OTHERS THEN
       DBMS_OUTPUT.put_line('Error occurred: ' || SQLERRM);
