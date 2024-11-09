@@ -1,5 +1,3 @@
-SET SERVEROUTPUT ON;
-
 CREATE OR REPLACE PACKAGE test_pkg_course_management IS
   --%suite
 
@@ -9,10 +7,10 @@ CREATE OR REPLACE PACKAGE test_pkg_course_management IS
   --%test test_delete_course
   PROCEDURE test_delete_course;
 
-  /*
   --%test test_update_course
   PROCEDURE test_update_course;
 
+    /*
   --%test test_display_course
   PROCEDURE test_display_course;
   */
@@ -85,12 +83,49 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_course_management IS
       ut.fail('Unexpected error: ' || SQLERRM);
   END test_delete_course;
 
-/*
+
   PROCEDURE test_update_course IS
+    v_course_count_before NUMBER;
+    v_course_count_after  NUMBER;
+    v_course_name         NEO.courses.course_name%TYPE;
+    v_course_id           NEO.courses.course_id%TYPE;
+  BEGIN
+    SELECT COUNT(*) INTO v_course_count_before FROM NEO.courses;
   
+    NEO.pkg_course_management.create_course(
+        v_course_name => 'v_course'
+      );
+  
+    SELECT COUNT(*) INTO v_course_count_after FROM NEO.courses;
+    ut.expect(v_course_count_after).to_equal(v_course_count_before + 1);
+  
+    SELECT course_id 
+    INTO v_course_id 
+    FROM NEO.courses 
+    WHERE course_name = 'v_course';
+  
+    UPDATE NEO.courses
+    SET course_name = 'test_course_name'
+    WHERE course_id = v_course_id;
+  
+
+    SELECT course_name 
+    INTO v_course_name 
+    FROM NEO.courses 
+    WHERE course_id = v_course_id;
+
+    ut.expect(v_course_name).to_equal('test_course_name');
+
+    DELETE FROM NEO.courses WHERE course_name = 'test_course_name';
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      ut.fail('Failed to find the course record');
+    WHEN OTHERS THEN
+      ut.fail('Unexpected error: ' || SQLERRM);
   END test_update_course;
 
- 
+ /*
   PROCEDURE test_display_course IS
   
   END test_display_course;
