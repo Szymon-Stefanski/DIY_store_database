@@ -10,10 +10,8 @@ CREATE OR REPLACE PACKAGE test_pkg_course_management IS
   --%test test_update_course
   PROCEDURE test_update_course;
 
-    /*
   --%test test_display_course
   PROCEDURE test_display_course;
-  */
 END test_pkg_course_management;
 /
 
@@ -125,10 +123,31 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_course_management IS
       ut.fail('Unexpected error: ' || SQLERRM);
   END test_update_course;
 
- /*
+
   PROCEDURE test_display_course IS
-  
+    v_course_id NEO.courses.course_id%TYPE;
+    v_course_name NEO.courses.course_name%TYPE;
+    v_expected_info VARCHAR2(100);
+    v_actual_info VARCHAR2(100);
+
+  BEGIN
+    INSERT INTO NEO.courses(course_name) VALUES ('test_course')
+    RETURNING course_id, course_name INTO v_course_id, v_course_name;
+
+    v_expected_info :=  'Course ID: ' || v_course_id || 
+                    ', Course name: ' || v_course_name;
+    
+    v_actual_info := NEO.pkg_course_management.display_course(v_course_id);
+
+    ut.expect(v_expected_info).to_equal(v_actual_info);
+
+    DELETE FROM NEO.courses WHERE course_id = v_course_id;
+
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      ut.fail('Failed to find the course record');
+    WHEN OTHERS THEN
+      ut.fail('Unexpected error: ' || SQLERRM);
   END test_display_course;
-  */
 END test_pkg_course_management;
 /
