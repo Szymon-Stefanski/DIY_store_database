@@ -1,3 +1,4 @@
+-- TESTS FOR GRADE MANAGEMENT OPERATIONS
 CREATE OR REPLACE PACKAGE test_pkg_grade_management 
 IS
   --%suite
@@ -19,7 +20,7 @@ END test_pkg_grade_management;
 
 CREATE OR REPLACE PACKAGE BODY test_pkg_grade_management
 IS
-
+  --TEST FOR ADDING A NEW GRADE RECORD
   PROCEDURE test_add_grade
   IS
     v_grade_count_before NUMBER;
@@ -55,7 +56,7 @@ IS
 
   END test_add_grade;
 
-
+  --TEST FOR UPDATING A GRADE RECORD
   PROCEDURE test_update_grade
   IS
     v_grade_count_before NUMBER;
@@ -87,7 +88,7 @@ IS
 
   END test_update_grade;
 
-
+  --TEST FOR GETTING AN AVERAGE FROM STUDENT'S GRADES
   PROCEDURE test_avg_grade
   IS
     v_student_id NEO.students.student_id%TYPE := 1;
@@ -115,7 +116,7 @@ IS
 
   END test_avg_grade;
 
-
+  --TEST FOR GETTING ALL STUDENT'S GRADES
   PROCEDURE test_get_all_grades
   IS
     v_student_id NEO.students.student_id%TYPE := 1;

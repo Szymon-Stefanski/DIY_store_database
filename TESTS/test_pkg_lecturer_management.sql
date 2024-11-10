@@ -1,7 +1,6 @@
-SET SERVEROUTPUT ON;
-
 -- TESTS FOR LECTURER MANAGEMENT OPERATIONS
-CREATE OR REPLACE PACKAGE test_pkg_lecturer_management IS
+CREATE OR REPLACE PACKAGE test_pkg_lecturer_management 
+IS
   --%suite
 
   --%test test_add_lecturer_success
@@ -15,10 +14,11 @@ CREATE OR REPLACE PACKAGE test_pkg_lecturer_management IS
 END test_pkg_lecturer_management;
 /
 
-CREATE OR REPLACE PACKAGE BODY test_pkg_lecturer_management IS
-
+CREATE OR REPLACE PACKAGE BODY test_pkg_lecturer_management 
+IS
   --TEST FOR ADDING A NEW LECTURER RECORD
-  PROCEDURE test_add_lecturer_success IS
+  PROCEDURE test_add_lecturer_success 
+  IS
     v_lecturer_count_before NUMBER;
     v_lecturer_count_after NUMBER;
   BEGIN
@@ -49,15 +49,12 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_lecturer_management IS
       WHEN NO_DATA_FOUND THEN
         ut.fail('Failed to find the inserted lecturer record');
     END;
-
-    DELETE FROM NEO.lecturers WHERE phone_number = '123456789' AND email = 'john.doe@example.com';
-    
-    ROLLBACK;
     
   END test_add_lecturer_success;
 
   --TEST FOR DELETING A LECTURER RECORD BY ID
-  PROCEDURE test_delete_lecturer_success IS
+  PROCEDURE test_delete_lecturer_success 
+  IS
     v_lecturer_count_before NUMBER;
     v_lecturer_count_after NUMBER;
     v_lecturer_id NEO.lecturers.lecturer_id%TYPE;
@@ -84,7 +81,6 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_lecturer_management IS
     SELECT COUNT(*) INTO v_lecturer_count_after FROM NEO.lecturers;
     ut.expect(v_lecturer_count_after).to_equal(v_lecturer_count_before);
     
-    ROLLBACK;
 
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
@@ -92,7 +88,8 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_lecturer_management IS
   END test_delete_lecturer_success;
 
   --TEST FOR RETRIEVING LECTURER INFORMATION
-  PROCEDURE test_get_lecturer_info_success IS
+  PROCEDURE test_get_lecturer_info_success 
+  IS
     v_lecturer_id    NEO.lecturers.lecturer_id%TYPE;
     v_first_name     VARCHAR2(100) := 'John';
     v_last_name      VARCHAR2(100) := 'Doe';
@@ -100,6 +97,7 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_lecturer_management IS
     v_phone_number   VARCHAR2(20)  := '123456789';
     v_expected_info  VARCHAR2(500);
     v_actual_info    VARCHAR2(500);
+
   BEGIN
     INSERT INTO NEO.lecturers (first_name, last_name, email, phone_number)
     VALUES (v_first_name, v_last_name, v_email, v_phone_number)
@@ -114,10 +112,6 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_lecturer_management IS
     v_actual_info := NEO.pkg_lecturer_management.get_lecturer_info(v_lecturer_id);
 
     ut.expect(v_actual_info).to_equal(v_expected_info);
-
-    DELETE FROM NEO.lecturers WHERE lecturer_id = v_lecturer_id;
-
-    ROLLBACK;
 
   EXCEPTION
     WHEN OTHERS THEN

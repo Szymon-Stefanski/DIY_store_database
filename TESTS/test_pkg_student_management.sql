@@ -1,5 +1,6 @@
 -- TESTS FOR STUDENT MANAGEMENT OPERATIONS
-CREATE OR REPLACE PACKAGE test_pkg_student_management IS
+CREATE OR REPLACE PACKAGE test_pkg_student_management 
+IS
   --%suite
   
   --%test test_add_student_success
@@ -16,11 +17,13 @@ CREATE OR REPLACE PACKAGE test_pkg_student_management IS
 END test_pkg_student_management;
 /
 
-CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
+CREATE OR REPLACE PACKAGE BODY test_pkg_student_management 
+IS
   -- TEST TO ADD A NEW STUDENT RECORD
   PROCEDURE test_add_student_success IS
     v_student_count_before NUMBER;
     v_student_count_after NUMBER;
+
   BEGIN
     SELECT COUNT(*) INTO v_student_count_before FROM NEO.students;
 
@@ -55,17 +58,15 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
         ut.fail('Failed to find the inserted student record');
     END;
 
-    DELETE FROM NEO.students WHERE phone_number = '123456789' AND pesel = '90010112345';
-
-    ROLLBACK;
-
   END test_add_student_success;
 
   -- TEST TO DELETE A STUDENT RECORD
-  PROCEDURE test_delete_student_success IS
+  PROCEDURE test_delete_student_success 
+  IS
     v_student_count_before NUMBER;
     v_student_count_after NUMBER;
     v_student_id NEO.students.student_id%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_student_count_before FROM NEO.students;
 
@@ -94,17 +95,17 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
     SELECT COUNT(*) INTO v_student_count_after FROM NEO.students;
     ut.expect(v_student_count_after).to_equal(v_student_count_before);
 
-    ROLLBACK;
-
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
       ut.fail('Failed to find a student record with this id');
   END test_delete_student_success;
 
   -- TEST TO UPDATE A STUDENT ADDRESS
-  PROCEDURE test_update_student_success IS
+  PROCEDURE test_update_student_success 
+  IS
     v_student_count_before NUMBER;
     v_student_count_after NUMBER;
+
   BEGIN
     SELECT COUNT(*) INTO v_student_count_before FROM NEO.students;
 
@@ -150,17 +151,15 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
         ut.fail('Failed to find the inserted student record');
     END;
 
-    DELETE FROM NEO.students WHERE phone_number = '123456789' AND pesel = '90010112345';
-
-    ROLLBACK;
-
   END test_update_student_success;
 
   ---- TEST TO GET AN INFO ABOUT STUDENT
-  PROCEDURE test_get_student_info_success IS
+  PROCEDURE test_get_student_info_success 
+  IS
     v_student_id    NEO.students.student_id%TYPE;
     v_expected_info VARCHAR2(500);
     v_actual_info   VARCHAR2(500);
+
   BEGIN
     INSERT INTO NEO.students (first_name, last_name, email, city, street, home_number, postal_code, phone_number, PESEL)
     VALUES ('John', 'Doe', 'john.doe@example.com', 'SampleCity', 'SampleStreet', '12', '12-345', '123456789', '90010112345')
@@ -180,10 +179,6 @@ CREATE OR REPLACE PACKAGE BODY test_pkg_student_management IS
     v_actual_info := NEO.pkg_student_management.get_student_info(v_student_id);
 
     ut.expect(v_actual_info).to_equal(v_expected_info);
-
-    DELETE FROM NEO.students WHERE student_id = v_student_id;
-
-    ROLLBACK;
 
   EXCEPTION
     WHEN OTHERS THEN
