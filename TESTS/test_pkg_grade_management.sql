@@ -10,10 +10,10 @@ IS
 
   --%test test_avg_grade
   PROCEDURE test_avg_grade;
-/*
+
   --%test test_get_all_grades
   PROCEDURE test_get_all_grades;
-*/
+
 END test_pkg_grade_management;
 /
 
@@ -115,11 +115,41 @@ IS
 
   END test_avg_grade;
 
-/*
+
   PROCEDURE test_get_all_grades
   IS
+    v_student_id NEO.students.student_id%TYPE := 1;
+    v_expected_info VARCHAR2(200);
+    v_actual_info VARCHAR2(200);
 
+    CURSOR grade_cursor IS
+      SELECT g.grade_id, g.course_id, g.exam_id, g.grade
+      FROM NEO.grades g
+      INNER JOIN NEO.students_grades s ON g.grade_id = s.grade_id
+      WHERE s.student_id = v_student_id;
+
+    v_output      VARCHAR2(1000) := 'Grades for Student ID: ' || v_student_id || ': ';
+    v_first       BOOLEAN := TRUE;
+  BEGIN
+    FOR grade_record IN grade_cursor LOOP
+        v_first := FALSE;
+        v_actual_info := v_output || 
+                    'Grade ID: ' || grade_record.grade_id || ', ' ||
+                    'Course ID: ' || grade_record.course_id || ', ' ||
+                    'Exam ID: ' || grade_record.exam_id || ', ' ||
+                    'Grade: ' || grade_record.grade || '; ';
+    END LOOP;
+
+    v_expected_info := NEO.pkg_grade_management.get_all_grades(1);
+    
+    ut.expect(v_actual_info).to_equal(v_expected_info);
+
+    EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      ut.fail('Failed to find average grades for student with this id');
+    WHEN OTHERS THEN
+      ut.fail('Unexpected error: ' || SQLERRM);
   END test_get_all_grades;
-*/
+
 END test_pkg_grade_management;
 /
