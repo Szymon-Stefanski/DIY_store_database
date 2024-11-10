@@ -7,13 +7,13 @@ IS
 
   --%test test_update_grade
   PROCEDURE test_update_grade;
-/*
+
   --%test test_avg_grade
   PROCEDURE test_avg_grade;
-
+/*
   --%test test_get_all_grades
   PROCEDURE test_get_all_grades;
-  */
+*/
 END test_pkg_grade_management;
 /
 
@@ -88,16 +88,37 @@ IS
   END test_update_grade;
 
 
-/*
   PROCEDURE test_avg_grade
   IS
+    v_student_id NEO.students.student_id%TYPE := 1;
+    v_grade NEO.grades.grade%TYPE;
+    v_expected_info VARCHAR2(100);
+    v_actual_info VARCHAR2(100);
+  BEGIN
+    SELECT NVL(AVG(g.grade), 0)
+    INTO v_grade
+    FROM NEO.grades g
+    INNER JOIN NEO.students_grades s ON g.grade_id = s.grade_id
+    WHERE s.student_id = v_student_id;
+
+    v_actual_info := 'Average grade: ' || v_grade;
+
+    v_expected_info := NEO.pkg_grade_management.avg_grade(v_student_id);
+
+    ut.expect(v_actual_info).to_equal(v_expected_info);
+
+    EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      ut.fail('Failed to find average grades for student with this id');
+    WHEN OTHERS THEN
+      ut.fail('Unexpected error: ' || SQLERRM);
 
   END test_avg_grade;
 
-
+/*
   PROCEDURE test_get_all_grades
   IS
-  
+
   END test_get_all_grades;
 */
 END test_pkg_grade_management;
