@@ -9,9 +9,7 @@ IS
   );
 
   PROCEDURE update_grade(
-    v_student_id  students_grades.student_id%TYPE,
-    v_course_id   grades.course_id%TYPE,
-    v_exam_id     grades.exam_id%TYPE,
+    v_grade_id  grades.grade_id%TYPE,
     v_grade       grades.grade%TYPE
   );
 
@@ -38,10 +36,10 @@ IS
     IF v_grade BETWEEN 2.0 AND 5.0 THEN
       INSERT INTO grades (course_id, exam_id, grade)
       VALUES (v_course_id, v_exam_id, v_grade)
-      RETURNING grade_id INTO v_grade_id;;
+      RETURNING grade_id INTO v_grade_id;
 
       INSERT INTO students_grades (student_id, grade_id)
-      VALUES (v_student_id, v_grade)
+      VALUES (v_student_id, v_grade);
       DBMS_OUTPUT.PUT_LINE('Grade added successfully.');
     ELSE
       RAISE ex_grade;
@@ -56,33 +54,27 @@ IS
 
   -- PROCEDURE TO UPDATE A STUDENT'S GRADE
   PROCEDURE update_grade(
-      v_student_id  students_grades.student_id%TYPE,
-      v_course_id   grades.course_id%TYPE,
-      v_exam_id     grades.exam_id%TYPE,
+      v_grade_id    grades.grade_id%TYPE,
       v_grade       grades.grade%TYPE
   )
   IS
   BEGIN
-    UPDATE grades g
-    SET g.grade = v_grade
-    WHERE g.grade_id = (
-        SELECT s.grade_id
-        FROM students_grades s
-        WHERE s.student_id = v_student_id
-          AND g.course_id = v_course_id
-          AND g.exam_id = v_exam_id
-    );
+      UPDATE grades
+      SET grade = v_grade
+      WHERE grade_id = v_grade_id;
+
 
       IF SQL%ROWCOUNT = 0 THEN
-          DBMS_OUTPUT.PUT_LINE('No matching record found for the provided student, course, and exam IDs.');
+          DBMS_OUTPUT.PUT_LINE('No matching record found for the provided grade ID.');
       ELSE
           DBMS_OUTPUT.PUT_LINE('Student grade updated successfully.');
       END IF;
 
   EXCEPTION
       WHEN OTHERS THEN
-          DBMS_OUTPUT.PUT_LINE('Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM);
   END update_grade;
+
 
   -- FUNCTION TO RETRIEVE AVERAGE GRADE BY STUDENT ID
   FUNCTION avg_grade(v_student_id students_grades.student_id%TYPE)
@@ -144,3 +136,4 @@ IS
   END get_all_grades;
 
 END pkg_grade_management;
+/
