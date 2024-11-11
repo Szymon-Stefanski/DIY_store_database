@@ -19,7 +19,7 @@ END test_pkg_course_management;
 
 CREATE OR REPLACE PACKAGE BODY test_pkg_course_management 
 IS
-  --TEST FOR CREATING A NEW COURSE RECORD
+  --TEST TO CREATE A NEW COURSE RECORD
   PROCEDURE test_create_course IS
     v_course_count_before NUMBER;
     v_course_count_after  NUMBER;
@@ -49,7 +49,7 @@ IS
       ut.fail('Unexpected error: ' || SQLERRM);
   END test_create_course;
 
-  --TEST FOR DELETING A COURSE RECORD
+  --TEST TO DELETE A COURSE RECORD
   PROCEDURE test_delete_course 
   IS
     v_course_count_before NUMBER;
@@ -84,7 +84,7 @@ IS
       ut.fail('Unexpected error: ' || SQLERRM);
   END test_delete_course;
 
-  --TEST FOR UPDATING A COURSE RECORD
+  --TEST TO UPDATE A COURSE RECORD
   PROCEDURE test_update_course 
   IS
     v_course_count_before NUMBER;
@@ -125,7 +125,7 @@ IS
       ut.fail('Unexpected error: ' || SQLERRM);
   END test_update_course;
 
-  --TEST FOR DISPLAYING A COURSE RECORD
+  --TEST TO DISPLAY A COURSE RECORD
   PROCEDURE test_display_course 
   IS
     v_course_id NEO.courses.course_id%TYPE;

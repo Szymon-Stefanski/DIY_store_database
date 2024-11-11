@@ -20,10 +20,12 @@ END test_pkg_student_management;
 CREATE OR REPLACE PACKAGE BODY test_pkg_student_management 
 IS
   -- TEST TO ADD A NEW STUDENT RECORD
-  PROCEDURE test_add_student_success IS
+  PROCEDURE test_add_student_success 
+  IS
     v_student_count_before NUMBER;
     v_student_count_after NUMBER;
-
+    v_first_name NEO.students.first_name%TYPE;
+    v_last_name NEO.students.last_name%TYPE;
   BEGIN
     SELECT COUNT(*) INTO v_student_count_before FROM NEO.students;
 
@@ -42,22 +44,17 @@ IS
     SELECT COUNT(*) INTO v_student_count_after FROM NEO.students;
     ut.expect(v_student_count_after).to_equal(v_student_count_before + 1);
 
-    DECLARE
-      v_first_name NEO.students.first_name%TYPE;
-      v_last_name NEO.students.last_name%TYPE;
-    BEGIN
-      SELECT first_name, last_name
-      INTO v_first_name, v_last_name
-      FROM NEO.students
-      WHERE phone_number = '123456789' AND pesel = '90010112345';
+    SELECT first_name, last_name
+    INTO v_first_name, v_last_name
+    FROM NEO.students
+    WHERE phone_number = '123456789' AND pesel = '90010112345';
 
-      ut.expect(v_first_name).to_equal('John');
-      ut.expect(v_last_name).to_equal('Doe');
-    EXCEPTION
-      WHEN NO_DATA_FOUND THEN
-        ut.fail('Failed to find the inserted student record');
-    END;
+    ut.expect(v_first_name).to_equal('John');
+    ut.expect(v_last_name).to_equal('Doe');
 
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      ut.fail('Failed to find the inserted student record');
   END test_add_student_success;
 
   -- TEST TO DELETE A STUDENT RECORD

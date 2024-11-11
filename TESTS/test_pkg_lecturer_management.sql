@@ -16,11 +16,13 @@ END test_pkg_lecturer_management;
 
 CREATE OR REPLACE PACKAGE BODY test_pkg_lecturer_management 
 IS
-  --TEST FOR ADDING A NEW LECTURER RECORD
+  --TEST TO ADD A NEW LECTURER RECORD
   PROCEDURE test_add_lecturer_success 
   IS
     v_lecturer_count_before NUMBER;
     v_lecturer_count_after NUMBER;
+    v_first_name NEO.lecturers.first_name%TYPE;
+    v_last_name NEO.lecturers.last_name%TYPE;
   BEGIN
     SELECT COUNT(*) INTO v_lecturer_count_before FROM NEO.lecturers;
 
@@ -34,25 +36,20 @@ IS
     SELECT COUNT(*) INTO v_lecturer_count_after FROM NEO.lecturers;
     ut.expect(v_lecturer_count_after).to_equal(v_lecturer_count_before + 1);
 
-    DECLARE
-      v_first_name NEO.lecturers.first_name%TYPE;
-      v_last_name NEO.lecturers.last_name%TYPE;
-    BEGIN
-      SELECT first_name, last_name
-      INTO v_first_name, v_last_name
-      FROM NEO.lecturers
-      WHERE phone_number = '123456789' AND email = 'john.doe@example.com';
+    SELECT first_name, last_name
+    INTO v_first_name, v_last_name
+    FROM NEO.lecturers
+    WHERE phone_number = '123456789' AND email = 'john.doe@example.com';
 
-      ut.expect(v_first_name).to_equal('John');
-      ut.expect(v_last_name).to_equal('Doe');
+    ut.expect(v_first_name).to_equal('John');
+    ut.expect(v_last_name).to_equal('Doe');
+
     EXCEPTION
       WHEN NO_DATA_FOUND THEN
         ut.fail('Failed to find the inserted lecturer record');
-    END;
-    
   END test_add_lecturer_success;
 
-  --TEST FOR DELETING A LECTURER RECORD BY ID
+  --TEST TO DELETE A LECTURER RECORD BY ID
   PROCEDURE test_delete_lecturer_success 
   IS
     v_lecturer_count_before NUMBER;
@@ -87,7 +84,7 @@ IS
       ut.fail('Failed to find a lecturer record with this id');
   END test_delete_lecturer_success;
 
-  --TEST FOR RETRIEVING LECTURER INFORMATION
+  --TEST TO RETRIEVE LECTURER INFORMATION
   PROCEDURE test_get_lecturer_info_success 
   IS
     v_lecturer_id    NEO.lecturers.lecturer_id%TYPE;

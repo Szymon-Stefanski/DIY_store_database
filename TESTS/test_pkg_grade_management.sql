@@ -20,12 +20,12 @@ END test_pkg_grade_management;
 
 CREATE OR REPLACE PACKAGE BODY test_pkg_grade_management
 IS
-  --TEST FOR ADDING A NEW GRADE RECORD
+  --TEST TO ADD A NEW GRADE RECORD
   PROCEDURE test_add_grade
   IS
     v_grade_count_before NUMBER;
     v_grade_count_after NUMBER;
-    v_grade NUMBER;
+    v_grade NEO.grades.grade%TYPE;
   BEGIN
     SELECT COUNT(*) INTO v_grade_count_before FROM NEO.grades;
 
@@ -56,12 +56,12 @@ IS
 
   END test_add_grade;
 
-  --TEST FOR UPDATING A GRADE RECORD
+  --TEST TO UPDATE A GRADE RECORD
   PROCEDURE test_update_grade
   IS
     v_grade_count_before NUMBER;
     v_grade_count_after NUMBER;
-    v_grade NUMBER;
+    v_grade NEO.grades.grade%TYPE;
   BEGIN
     SELECT COUNT(*) INTO v_grade_count_before FROM NEO.grades;
 
@@ -88,7 +88,7 @@ IS
 
   END test_update_grade;
 
-  --TEST FOR GETTING AN AVERAGE FROM STUDENT'S GRADES
+  --TEST TO RETRIEVE AN AVERAGE FROM STUDENT'S GRADES
   PROCEDURE test_avg_grade
   IS
     v_student_id NEO.students.student_id%TYPE := 1;
@@ -116,7 +116,7 @@ IS
 
   END test_avg_grade;
 
-  --TEST FOR GETTING ALL STUDENT'S GRADES
+  --TEST TO GET ALL STUDENT'S GRADES
   PROCEDURE test_get_all_grades
   IS
     v_student_id NEO.students.student_id%TYPE := 1;
