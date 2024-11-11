@@ -11,7 +11,7 @@ IS
     v_schedule_id   attendances.schedule_id%TYPE,
     v_status        attendances.status%TYPE
   );
-  PROCEDURE generate_attendance_report(
+  FUNCTION generate_attendance_report(
       v_schedule_id attendances.schedule_id%TYPE,
       v_group_id    groups.group_id%TYPE
     );
@@ -69,39 +69,39 @@ IS
 
 
 
-  -- PROCEDURE TO GENERATE REPORT ABOUT ATTENDANCES IN GROUP
-  PROCEDURE generate_attendance_report(
+  -- FUNCTION TO GENERATE REPORT ABOUT ATTENDANCES IN GROUP
+  FUNCTION generate_attendance_report(
       v_schedule_id attendances.schedule_id%TYPE,
       v_group_id    groups.group_id%TYPE
-    )
-    IS
-        CURSOR attendance_cursor IS
-            SELECT s.student_id, s.first_name, s.last_name, a.status
-            FROM students s
-            LEFT JOIN attendances a ON s.student_id = a.student_id
-            WHERE a.schedule_id = v_schedule_id;
+  ) RETURN VARCHAR2
+  IS
+      CURSOR attendance_cursor IS
+          SELECT s.student_id, s.first_name, s.last_name, a.status
+          FROM students s
+          LEFT JOIN attendances a ON s.student_id = a.student_id
+          WHERE a.schedule_id = v_schedule_id;
 
-        v_report_line VARCHAR2(500);
-    BEGIN
-        DBMS_OUTPUT.PUT_LINE('Attendance Report for Schedule ID: ' || v_schedule_id);
-        DBMS_OUTPUT.PUT_LINE('----------------------------------------');
-        DBMS_OUTPUT.PUT_LINE('Student ID | First Name | Last Name | Status');
-        
-        FOR attendance_record IN attendance_cursor LOOP
-            v_report_line := attendance_record.student_id || ' | ' ||
-                            attendance_record.first_name || ' | ' ||
-                            attendance_record.last_name || ' | ' ||
-                            NVL(attendance_record.status, 'Not Recorded');
-            DBMS_OUTPUT.PUT_LINE(v_report_line);
-        END LOOP;
+      v_report VARCHAR2(4000) := 'Attendance Report for Schedule ID: ' || v_schedule_id || CHR(10) ||
+                                '----------------------------------------' || CHR(10) ||
+                                'Student ID | First Name | Last Name | Status' || CHR(10);
+  BEGIN
+      -- Loop through the cursor to build the report
+      FOR attendance_record IN attendance_cursor LOOP
+          v_report := v_report || attendance_record.student_id || ' | ' ||
+                      attendance_record.first_name || ' | ' ||
+                      attendance_record.last_name || ' | ' ||
+                      NVL(attendance_record.status, 'Not Recorded') || CHR(10);
+      END LOOP;
 
-        DBMS_OUTPUT.PUT_LINE('----------------------------------------');
-        DBMS_OUTPUT.PUT_LINE('Report Generation Completed.');
+      -- Add final lines to the report
+      v_report := v_report || '----------------------------------------' || CHR(10) || 'Report Generation Completed.';
 
-    EXCEPTION
-        WHEN OTHERS THEN
-            DBMS_OUTPUT.PUT_LINE('Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM);
-    END generate_attendance_report;
+      RETURN v_report;
+
+  EXCEPTION
+      WHEN OTHERS THEN
+          RETURN 'Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM;
+  END generate_attendance_report;
   
 
   
