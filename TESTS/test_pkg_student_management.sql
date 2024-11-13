@@ -17,6 +17,7 @@ IS
 END test_pkg_student_management;
 /
 
+
 CREATE OR REPLACE PACKAGE BODY test_pkg_student_management 
 IS
   -- TEST TO ADD A NEW STUDENT RECORD
@@ -26,6 +27,7 @@ IS
     v_student_count_after NUMBER;
     v_first_name NEO.students.first_name%TYPE;
     v_last_name NEO.students.last_name%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_student_count_before FROM NEO.students;
 
@@ -56,6 +58,7 @@ IS
     WHEN NO_DATA_FOUND THEN
       ut.fail('Failed to find the inserted student record');
   END test_add_student_success;
+
 
   -- TEST TO DELETE A STUDENT RECORD
   PROCEDURE test_delete_student_success 
@@ -96,6 +99,7 @@ IS
     WHEN NO_DATA_FOUND THEN
       ut.fail('Failed to find a student record with this id');
   END test_delete_student_success;
+
 
   -- TEST TO UPDATE A STUDENT ADDRESS
   PROCEDURE test_update_student_success 
@@ -147,8 +151,8 @@ IS
       WHEN NO_DATA_FOUND THEN
         ut.fail('Failed to find the inserted student record');
     END;
-
   END test_update_student_success;
+  
 
   ---- TEST TO GET AN INFO ABOUT STUDENT
   PROCEDURE test_get_student_info_success 
@@ -181,6 +185,5 @@ IS
     WHEN OTHERS THEN
       DBMS_OUTPUT.put_line('Error occurred: ' || SQLERRM);
   END test_get_student_info_success;
-
 END test_pkg_student_management;
 /

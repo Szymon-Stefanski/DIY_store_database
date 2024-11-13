@@ -12,7 +12,9 @@ IS
     v_phone_number  students.phone_number%TYPE,
     v_pesel         students.PESEL%TYPE
     );
+
   PROCEDURE delete_student_record(v_student_id students.student_id%TYPE);
+
   PROCEDURE update_student_address(
     v_student_id    students.student_id%TYPE,
     v_city          students.city%TYPE,
@@ -20,6 +22,7 @@ IS
     v_home_number   students.home_number%TYPE,
     v_postal_code   students.postal_code%TYPE
     );
+    
   FUNCTION get_student_info(v_student_id students.student_id%TYPE) RETURN VARCHAR2;
 END pkg_student_management;
 /
@@ -40,6 +43,7 @@ IS
     v_pesel         students.PESEL%TYPE
   )
   IS
+
   BEGIN
     INSERT INTO 
     students (first_name, last_name, email, city, street, home_number, postal_code, phone_number, PESEL)
@@ -61,10 +65,10 @@ IS
   END add_new_student;
 
 
-
   -- PROCEDURE TO DELETE A STUDENT RECORD BY STUDENT ID
   PROCEDURE delete_student_record(v_student_id students.student_id%TYPE)
   IS
+
   BEGIN
     DELETE FROM students WHERE student_id = v_student_id;
 
@@ -80,7 +84,6 @@ IS
   END delete_student_record;
 
 
-
   -- PROCEDURE TO UPDATE A STUDENT'S ADDRESS
   PROCEDURE update_student_address(
     v_student_id    students.student_id%TYPE,
@@ -90,6 +93,7 @@ IS
     v_postal_code   students.postal_code%TYPE
   )
   IS
+
   BEGIN
     UPDATE students 
     SET city = v_city,
@@ -108,7 +112,6 @@ IS
     WHEN OTHERS THEN
       DBMS_OUTPUT.PUT_LINE('Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM);
   END update_student_address;
-
 
 
   -- FUNCTION TO RETRIEVE STUDENT INFORMATION BY STUDENT ID
@@ -150,7 +153,6 @@ IS
       RETURN 'Student not found.';
     WHEN OTHERS THEN
       RETURN 'Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM;
-
   END get_student_info;
-
 END pkg_student_management;
+/

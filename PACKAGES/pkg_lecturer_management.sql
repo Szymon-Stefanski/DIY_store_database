@@ -7,7 +7,9 @@ IS
     v_email         lecturers.email%TYPE,
     v_phone_number  lecturers.phone_number%TYPE
     );
+
   PROCEDURE delete_lecturer_record(v_lecturer_id lecturers.lecturer_id%TYPE);
+
   FUNCTION get_lecturer_info(v_lecturer_id lecturers.lecturer_id%TYPE) RETURN VARCHAR2;
 END pkg_lecturer_management;
 /
@@ -22,6 +24,7 @@ IS
     v_phone_number  lecturers.phone_number%TYPE
   )
   IS
+
   BEGIN
     INSERT INTO 
     lecturers (first_name, last_name, email, phone_number)
@@ -42,10 +45,10 @@ IS
   END add_new_lecturer;
 
 
-
   -- PROCEDURE TO DELETE A LECTURER RECORD BY LECTURER ID
   PROCEDURE delete_lecturer_record(v_lecturer_id lecturers.lecturer_id%TYPE)
   IS
+
   BEGIN
     DELETE FROM lecturers WHERE lecturer_id = v_lecturer_id;
 
@@ -59,7 +62,6 @@ IS
     WHEN OTHERS THEN
       DBMS_OUTPUT.PUT_LINE('Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM);
   END delete_lecturer_record;
-
 
 
   -- FUNCTION TO RETRIEVE LECTURER INFORMATION BY LECTURER ID
@@ -91,8 +93,6 @@ IS
       RETURN 'Lecturer not found.';
     WHEN OTHERS THEN
       RETURN 'Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM;
-
   END get_lecturer_info;
-
 END pkg_lecturer_management;
-
+/

@@ -7,7 +7,9 @@ IS
     v_exam_date    exams.exam_date%TYPE,
     v_room_id      exams.room_id%TYPE
     );
+
   PROCEDURE delete_exam (v_exam_id exams.exam_id%TYPE);
+
   PROCEDURE update_exam (
     v_exam_id      exams.exam_id%TYPE,
     v_course_id    exams.course_id%TYPE,
@@ -15,10 +17,11 @@ IS
     v_exam_date    exams.exam_date%TYPE,
     v_room_id      exams.room_id%TYPE
     );
-    FUNCTION display_exam(v_exam_id exams.exam_id%TYPE) RETURN VARCHAR2;
-  
+
+  FUNCTION display_exam(v_exam_id exams.exam_id%TYPE) RETURN VARCHAR2;
 END pkg_exam_management;
 /
+
 
 CREATE OR REPLACE PACKAGE BODY pkg_exam_management
 IS
@@ -30,6 +33,7 @@ IS
     v_room_id      exams.room_id%TYPE
     )
   IS
+
   BEGIN
     INSERT INTO exams
     (course_id, group_id, exam_date, room_id) 
@@ -48,10 +52,10 @@ IS
   END add_exam;
 
 
-
   -- PROCEDURE TO DELETE AN EXAM
   PROCEDURE delete_exam (v_exam_id exams.exam_id%TYPE)
-    IS
+  IS
+
   BEGIN
     DELETE FROM exams WHERE exam_id = v_exam_id;
 
@@ -76,6 +80,7 @@ IS
     v_room_id      exams.room_id%TYPE
     )
   IS
+
   BEGIN
     UPDATE  exams
     SET     course_id = v_course_id,
@@ -96,7 +101,6 @@ IS
   END update_exam;
 
 
-
   --FUNCTION FOR DISPLAYING EXAM DETAILS
   FUNCTION display_exam(v_exam_id exams.exam_id%TYPE) 
   RETURN VARCHAR2
@@ -105,13 +109,15 @@ IS
       v_group_id     exams.group_id%TYPE;
       v_exam_date    exams.exam_date%TYPE;
       v_room_id      exams.room_id%TYPE;
+
   BEGIN
       SELECT course_id, group_id, exam_date, room_id
       INTO v_course_id, v_group_id, v_exam_date, v_room_id
       FROM exams
       WHERE exam_id = v_exam_id;
 
-      RETURN  'Exam ID: ' || v_exam_id ||
+      RETURN  
+              'Exam ID: ' || v_exam_id ||
               ', Course ID: ' || v_course_id || 
               ', Group ID: ' || v_group_id || 
               ', Exam date: ' || TO_CHAR(v_exam_date, 'YYYY-MM-DD') || 
@@ -124,3 +130,4 @@ IS
         RETURN 'Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM;
   END display_exam;
 END pkg_exam_management;
+/

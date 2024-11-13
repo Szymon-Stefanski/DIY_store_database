@@ -14,9 +14,9 @@ IS
 
   --%test test_get_all_grades
   PROCEDURE test_get_all_grades;
-
 END test_pkg_grade_management;
 /
+
 
 CREATE OR REPLACE PACKAGE BODY test_pkg_grade_management
 IS
@@ -26,6 +26,7 @@ IS
     v_grade_count_before NUMBER;
     v_grade_count_after NUMBER;
     v_grade NEO.grades.grade%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_grade_count_before FROM NEO.grades;
 
@@ -53,8 +54,8 @@ IS
       ut.fail('Failed to find the inserted grade record');
     WHEN OTHERS THEN
       ut.fail('Unexpected error: ' || SQLERRM);
-
   END test_add_grade;
+
 
   --TEST TO UPDATE A GRADE RECORD
   PROCEDURE test_update_grade
@@ -62,6 +63,7 @@ IS
     v_grade_count_before NUMBER;
     v_grade_count_after NUMBER;
     v_grade NEO.grades.grade%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_grade_count_before FROM NEO.grades;
 
@@ -85,8 +87,8 @@ IS
       ut.fail('Failed to find the inserted grade record');
     WHEN OTHERS THEN
       ut.fail('Unexpected error: ' || SQLERRM);
-
   END test_update_grade;
+
 
   --TEST TO RETRIEVE AN AVERAGE FROM STUDENT'S GRADES
   PROCEDURE test_avg_grade
@@ -95,6 +97,7 @@ IS
     v_grade NEO.grades.grade%TYPE;
     v_expected_info VARCHAR2(100);
     v_actual_info VARCHAR2(100);
+
   BEGIN
     SELECT NVL(AVG(g.grade), 0)
     INTO v_grade
@@ -113,8 +116,8 @@ IS
       ut.fail('Failed to find average grades for student with this id');
     WHEN OTHERS THEN
       ut.fail('Unexpected error: ' || SQLERRM);
-
   END test_avg_grade;
+
 
   --TEST TO GET ALL STUDENT'S GRADES
   PROCEDURE test_get_all_grades
@@ -131,6 +134,7 @@ IS
 
     v_output      VARCHAR2(1000) := 'Grades for Student ID: ' || v_student_id || ': ';
     v_first       BOOLEAN := TRUE;
+    
   BEGIN
     FOR grade_record IN grade_cursor LOOP
         v_first := FALSE;
@@ -151,6 +155,5 @@ IS
     WHEN OTHERS THEN
       ut.fail('Unexpected error: ' || SQLERRM);
   END test_get_all_grades;
-
 END test_pkg_grade_management;
 /

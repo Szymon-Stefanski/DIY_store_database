@@ -14,9 +14,9 @@ IS
 
   --%test test_check_student_leaves
   PROCEDURE test_check_student_leaves;
-
 END test_pkg_attendance_management;
 /
+
 
 CREATE OR REPLACE PACKAGE BODY test_pkg_attendance_management
 IS
@@ -26,6 +26,7 @@ IS
     v_attendance_count_before NUMBER;
     v_attendance_count_after NUMBER;
     v_status NEO.attendances.status%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_attendance_count_before FROM NEO.attendances;
     
@@ -52,7 +53,6 @@ IS
         ut.fail('Failed to find the inserted attendance record');
       WHEN OTHERS THEN
         ut.fail('Unexpected error: ' || SQLERRM);
-
   END test_insert_attendance;
 
 
@@ -62,6 +62,7 @@ IS
     v_attendance_count_before NUMBER;
     v_attendance_count_after NUMBER;
     v_status NEO.attendances.status%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_attendance_count_before FROM NEO.attendances;
 
@@ -86,7 +87,6 @@ IS
         ut.fail('Failed to find the inserted attendance record');
       WHEN OTHERS THEN
         ut.fail('Unexpected error: ' || SQLERRM);
-  
   END test_update_attendance;
 
 
@@ -136,6 +136,7 @@ IS
     v_student_id NEO.students.student_id%TYPE := 1;
     v_expected_info NUMBER;
     v_actual_info NUMBER;
+
   BEGIN
       SELECT COUNT(*)
       INTO v_expected_info
@@ -152,8 +153,6 @@ IS
           ut.fail('Failed to find the inserted attendance record');
         WHEN OTHERS THEN
           ut.fail('Unexpected error: ' || SQLERRM);
-
   END test_check_student_leaves;
-
 END test_pkg_attendance_management;
 /

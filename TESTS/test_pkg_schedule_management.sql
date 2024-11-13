@@ -14,9 +14,9 @@ IS
 
   --%test test_display_schedule
   PROCEDURE test_display_schedule;
-
 END test_pkg_schedule_management;
 /
+
 
 CREATE OR REPLACE PACKAGE BODY test_pkg_schedule_management
 IS
@@ -26,6 +26,7 @@ IS
     v_schedule_count_before NUMBER;
     v_schedule_count_after NUMBER;
     v_schedule_date DATE;
+
   BEGIN
     SELECT COUNT(*) INTO v_schedule_count_before FROM NEO.schedules;
 
@@ -55,7 +56,6 @@ IS
         ut.fail('Failed to find the inserted attendance record');
       WHEN OTHERS THEN
         ut.fail('Unexpected error: ' || SQLERRM);
-
   END test_create_schedule;
 
 
@@ -65,6 +65,7 @@ IS
     v_schedule_count_before NUMBER;
     v_schedule_count_after NUMBER;
     v_schedule_id NEO.schedules.schedule_id%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_schedule_count_before FROM NEO.schedules;
     
@@ -104,6 +105,7 @@ IS
     v_schedule_count_after NUMBER;
     v_schedule_id_test NEO.schedules.schedule_id%TYPE;
     v_room_id NEO.schedules.room_id%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_schedule_count_before FROM NEO.schedules;
     
@@ -150,8 +152,8 @@ IS
         ut.fail('Failed to find the inserted attendance record');
       WHEN OTHERS THEN
         ut.fail('Unexpected error: ' || SQLERRM);
-
   END test_update_schedule;
+
 
   -- TEST TO DISPLAY SCHEDULE
   PROCEDURE test_display_schedule
@@ -167,6 +169,7 @@ IS
       v_lecturer_id   NEO.schedules.lecturer_id%TYPE;
       v_schedule_date NEO.schedules.schedule_date%TYPE;
       v_duration      NEO.schedules.duration%TYPE;
+      
   BEGIN
       SELECT start_time, end_time, course_id, group_id, room_id, lecturer_id, schedule_date, duration
       INTO v_start_time, v_end_time, v_course_id, v_group_id, v_room_id, v_lecturer_id, v_schedule_date, v_duration
@@ -193,6 +196,5 @@ IS
       WHEN OTHERS THEN
           ut.fail('Unexpected error: ' || SQLERRM);
   END test_display_schedule;
-
 END test_pkg_schedule_management;
 /

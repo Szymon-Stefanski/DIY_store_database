@@ -6,18 +6,22 @@ IS
     v_schedule_id   attendances.schedule_id%TYPE,
     v_status        attendances.status%TYPE
   );
+
     PROCEDURE update_attendance(
     v_student_id    attendances.student_id%TYPE,
     v_schedule_id   attendances.schedule_id%TYPE,
     v_status        attendances.status%TYPE
   );
+
   FUNCTION generate_attendance_report(
       v_schedule_id attendances.schedule_id%TYPE,
       v_group_id    groups.group_id%TYPE
     );
+
   FUNCTION check_student_leaves(v_student_id attendances.student_id%TYPE) RETURN NUMBER;
 END pkg_attendance_management;
 /
+
 
 CREATE OR REPLACE PACKAGE BODY pkg_attendance_management
 IS
@@ -28,6 +32,7 @@ IS
     v_status        attendances.status%TYPE
   )
   IS
+
   BEGIN
     INSERT INTO attendances(student_id, schedule_id, status)
     VALUES (v_student_id, v_schedule_id, v_status);
@@ -42,7 +47,6 @@ IS
   END insert_attendance;
 
 
-
   -- PROCEDURE TO UPDATE ATTENDANCE RECORD
   PROCEDURE update_attendance(
     v_student_id    attendances.student_id%TYPE,
@@ -50,6 +54,7 @@ IS
     v_status        attendances.status%TYPE
   )
   IS
+
   BEGIN
     UPDATE attendances
     SET status = v_status
@@ -68,7 +73,6 @@ IS
   END update_attendance;
 
 
-
   -- FUNCTION TO GENERATE REPORT ABOUT ATTENDANCES IN GROUP
   FUNCTION generate_attendance_report(
       v_schedule_id attendances.schedule_id%TYPE,
@@ -84,6 +88,7 @@ IS
       v_report VARCHAR2(4000) := 'Attendance Report for Schedule ID: ' || v_schedule_id || CHR(10) ||
                                 '----------------------------------------' || CHR(10) ||
                                 'Student ID | First Name | Last Name | Status' || CHR(10);
+
   BEGIN
       -- Loop through the cursor to build the report
       FOR attendance_record IN attendance_cursor LOOP
@@ -103,13 +108,13 @@ IS
           RETURN 'Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM;
   END generate_attendance_report;
   
-
   
   -- FUNCTION TO CHECK HOW MANY LEAVES STUDENT HAVE
   FUNCTION check_student_leaves(v_student_id attendances.student_id%TYPE)
   RETURN NUMBER
   IS
       v_leaves NUMBER := 0;
+
   BEGIN
       SELECT COUNT(*)
       INTO v_leaves
@@ -128,3 +133,4 @@ IS
           RETURN -1;
   END check_student_leaves;
 END pkg_attendance_management;
+/

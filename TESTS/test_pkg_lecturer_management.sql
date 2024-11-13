@@ -14,6 +14,7 @@ IS
 END test_pkg_lecturer_management;
 /
 
+
 CREATE OR REPLACE PACKAGE BODY test_pkg_lecturer_management 
 IS
   --TEST TO ADD A NEW LECTURER RECORD
@@ -23,6 +24,7 @@ IS
     v_lecturer_count_after NUMBER;
     v_first_name NEO.lecturers.first_name%TYPE;
     v_last_name NEO.lecturers.last_name%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_lecturer_count_before FROM NEO.lecturers;
 
@@ -49,12 +51,14 @@ IS
         ut.fail('Failed to find the inserted lecturer record');
   END test_add_lecturer_success;
 
+
   --TEST TO DELETE A LECTURER RECORD BY ID
   PROCEDURE test_delete_lecturer_success 
   IS
     v_lecturer_count_before NUMBER;
     v_lecturer_count_after NUMBER;
     v_lecturer_id NEO.lecturers.lecturer_id%TYPE;
+
   BEGIN
     SELECT COUNT(*) INTO v_lecturer_count_before FROM NEO.lecturers;
 
@@ -77,12 +81,12 @@ IS
 
     SELECT COUNT(*) INTO v_lecturer_count_after FROM NEO.lecturers;
     ut.expect(v_lecturer_count_after).to_equal(v_lecturer_count_before);
-    
 
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
       ut.fail('Failed to find a lecturer record with this id');
   END test_delete_lecturer_success;
+
 
   --TEST TO RETRIEVE LECTURER INFORMATION
   PROCEDURE test_get_lecturer_info_success 

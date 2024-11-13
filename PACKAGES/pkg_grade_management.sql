@@ -14,6 +14,7 @@ IS
   );
 
   FUNCTION avg_grade(v_student_id students_grades.student_id%TYPE) RETURN VARCHAR2;
+
   FUNCTION get_all_grades(v_student_id students_grades.student_id%TYPE) RETURN VARCHAR2;
 END pkg_grade_management;
 / 
@@ -32,6 +33,7 @@ IS
     PRAGMA EXCEPTION_INIT(ex_grade, -20001);
 
     v_grade_id grades.grade_id%TYPE;
+
   BEGIN
     IF v_grade BETWEEN 2.0 AND 5.0 THEN
       INSERT INTO grades (course_id, exam_id, grade)
@@ -52,12 +54,14 @@ IS
       DBMS_OUTPUT.PUT_LINE('Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM);
   END add_grade;
 
+
   -- PROCEDURE TO UPDATE A STUDENT'S GRADE
   PROCEDURE update_grade(
       v_grade_id    grades.grade_id%TYPE,
       v_grade       grades.grade%TYPE
   )
   IS
+
   BEGIN
       UPDATE grades
       SET grade = v_grade
@@ -82,6 +86,7 @@ IS
   IS
     v_grade       NUMBER;
     v_output      VARCHAR2(100);
+
   BEGIN
     SELECT NVL(AVG(g.grade), 0)
     INTO v_grade
@@ -98,8 +103,8 @@ IS
       RETURN 'No grades found for this student.';
     WHEN OTHERS THEN
       RETURN 'Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM;
-
   END avg_grade;
+
 
   -- FUNCTION TO RETRIEVE ALL GRADES INFORMATION BY STUDENT ID
   FUNCTION get_all_grades(v_student_id students_grades.student_id%TYPE)
@@ -134,6 +139,5 @@ IS
       WHEN OTHERS THEN
           RETURN 'Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM;
   END get_all_grades;
-
 END pkg_grade_management;
 /

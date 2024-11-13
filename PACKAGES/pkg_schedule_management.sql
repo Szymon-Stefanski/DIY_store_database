@@ -11,7 +11,9 @@ IS
     v_schedule_date schedules.schedule_date%TYPE,
     v_duration      schedules.duration%TYPE
     );
+
   PROCEDURE delete_schedule (v_schedule_id schedules.schedule_id%TYPE);
+
   PROCEDURE update_schedule (
     v_schedule_id   schedules.schedule_id%TYPE,
     v_start_time    schedules.start_time%TYPE,
@@ -23,9 +25,11 @@ IS
     v_schedule_date schedules.schedule_date%TYPE,
     v_duration      schedules.duration%TYPE
     );
+    
     FUNCTION display_schedule(v_schedule_id schedules.schedule_id%TYPE) RETURN VARCHAR2;
 END pkg_schedule_management;
 /
+
 
 CREATE OR REPLACE PACKAGE BODY pkg_schedule_management
 IS
@@ -41,6 +45,7 @@ IS
   v_duration      schedules.duration%TYPE
   )
   IS
+
   BEGIN
     INSERT INTO schedules
     (start_time, end_time, course_id, group_id, room_id, lecturer_id, schedule_date, duration) 
@@ -59,10 +64,10 @@ IS
   END create_schedule;
 
 
-
   -- PROCEDURE TO DELETE A SCHEDULE
   PROCEDURE delete_schedule (v_schedule_id schedules.schedule_id%TYPE)
   IS
+
   BEGIN
     DELETE FROM schedules WHERE schedule_id = v_schedule_id;
 
@@ -78,7 +83,6 @@ IS
   END delete_schedule;
 
 
-
   -- PROCEDURE TO UPDATE A SCHEDULE
   PROCEDURE update_schedule (
     v_schedule_id   schedules.schedule_id%TYPE,
@@ -92,6 +96,7 @@ IS
     v_duration      schedules.duration%TYPE
     )
   IS
+
   BEGIN
     UPDATE  schedules
     SET     start_time = v_start_time,
@@ -116,7 +121,6 @@ IS
   END update_schedule;
 
   
-
   --FUNCTION FOR DISPLAYING SCHEDULE DETAILS
   FUNCTION display_schedule(v_schedule_id schedules.schedule_id%TYPE) 
   RETURN VARCHAR2
@@ -129,6 +133,7 @@ IS
     v_lecturer_id   schedules.lecturer_id%TYPE;
     v_schedule_date schedules.schedule_date%TYPE;
     v_duration      schedules.duration%TYPE;
+
   BEGIN
       SELECT start_time, end_time, course_id, group_id, room_id, lecturer_id, schedule_date, duration
       INTO v_start_time, v_end_time, v_course_id, v_group_id, v_room_id, v_lecturer_id, v_schedule_date, v_duration
@@ -152,3 +157,4 @@ IS
         RETURN 'Error occurred. SQLCODE: ' || SQLCODE || ', SQLERRM: ' || SQLERRM;
   END display_schedule;
 END pkg_schedule_management;
+/
